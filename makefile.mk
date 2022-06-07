@@ -37,5 +37,16 @@ $(eval $(call add-lib,liblc3))
 
 default: liblc3
 
+ifeq ($(PREFIX),)
+    PREFIX := /usr/local
+endif
+
+install: $(liblc3_bin)
+	@echo "  INSTALL $(notdir $<)"
+	$(V)install -d $(PREFIX)/include
+	$(V)install -m 644 $(INCLUDE)/* $(PREFIX)/include
+	$(V)install -d $(PREFIX)/lib
+	$(V)install -m 644 $< $(PREFIX)/lib/$(notdir $<)
+
 -include tools/makefile.mk
 -include test/makefile.mk
